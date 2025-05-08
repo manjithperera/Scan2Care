@@ -1,0 +1,133 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  /* Main Container */
+  .diagnosis_container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Header Section */
+  .header_section {
+    display: flex;
+    align-items: center;
+    background-color: #e0e9fa;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .user_image {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .header_text {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
+  }
+  
+  h2 {
+    font-size: 22px;
+    color: #2b2b2b;
+    margin-bottom: 5px;
+  }
+  
+  .progress_dots {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+  }
+  
+  .dot.active {
+    background: #3f88e5;
+  }
+  
+  /* Progress Bar */
+  .progress_bar_container {
+    margin: 20px auto;
+    max-width: 600px;
+  }
+  
+  .progress_bar {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress_fill {
+    height: 100%;
+    background: #3f88e5;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  /* Diagnosis Result */
+  .result_section {
+    margin: 20px 0;
+  }
+  
+  .bold_text {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 14px;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .doctor_link {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #3f88e5;
+    text-decoration: none;
+  }
+  
+  /* Buttons */
+  .button_container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .back_button,
+  .explore_button {
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .back_button {
+    background: rgb(38, 132, 232);
+    border: 1px solid #ccc;
+  }
+  
+  .explore_button {
+    background: #3f88e5;
+    color: white;
+  }
+  

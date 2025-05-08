@@ -1,0 +1,121 @@
+.USessions-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 40px;
+}
+
+/* LEFT SECTION */
+.USessions-left {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  /* Flip scrollbar to left side */
+  direction: rtl;
+  padding-right: 40px; /* Acts as left padding visually */
+}
+
+/* SCROLL BAR LINE (now moved to the right side of content) */
+.USessions-scroll-line {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  width: 4px;
+  height: 100%;
+  background-color: #326ba8;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+/* TITLE */
+.USessions-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+  padding-top: 8px;
+  margin-left: 20px;
+  direction: ltr;
+}
+
+/* SESSION LIST */
+.USessions-list {
+  direction: ltr; /* Restore normal content direction */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+  padding-right: 10px;
+}
+
+/* SESSION CARD */
+.USessions-card {
+  background-color: #eaf2fa;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.USessions-card h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.USessions-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* DATETIME SECTION */
+.USessions-datetime {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #333;
+}
+
+.USessions-icon {
+  margin-right: 6px;
+}
+
+/* RIGHT IMAGE */
+.USessions-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.USessions-image {
+  width: 600px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Optional: nice left-side scrollbar */
+.USessions-left::-webkit-scrollbar {
+  width: 6px;
+}
+
+.USessions-left::-webkit-scrollbar-thumb {
+  background-color: #326ba8;
+  border-radius: 4px;
+}
+
+.USessions-left::-webkit-scrollbar-track {
+  background-color: transparent;
+}

@@ -1,0 +1,99 @@
+.DBookedSessions-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100vw;
+    height: 100vh;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+  }
+  
+  .DBookedSessions-left {
+    flex: 1;
+    max-width: 50%;
+  }
+  
+  .DBookedSessions-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .DBookedSessions-tab {
+    font-size: 18px;
+    font-weight: 500;
+    color: #aaa;
+    cursor: pointer;
+  }
+  
+  .DBookedSessions-tab.active {
+    color: #000;
+    font-weight: 600;
+  }
+  
+  .DBookedSessions-scroll {
+    display: flex;
+    position: relative;
+  }
+  
+  .DBookedSessions-line {
+    width: 4px;
+    background-color: #d0d0d0;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+  
+  .DBookedSessions-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .DBookedSessions-card {
+    background-color: #e9f1f7;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 280px;
+  }
+  
+  .DBookedSessions-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .DBookedSessions-specialty,
+  .DBookedSessions-qualifications {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .DBookedSessions-datetime {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .DBookedSessions-icon {
+    margin-right: 6px;
+  }
+  
+  .DBookedSessions-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .DBookedSessions-image {
+    width: 420px;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  

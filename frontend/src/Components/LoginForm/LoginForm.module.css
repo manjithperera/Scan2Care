@@ -1,0 +1,133 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .login_container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .login_card {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+  }
+  
+  .form_container {
+    background: #4683b42f;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a90e2;
+  }
+  
+  .logo img {
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  p {
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input,
+  select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  button {
+    padding: 10px;
+    background: #4682B4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  .form_options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .form_options a {
+    color: #4682B4;
+    text-decoration: none;
+  }
+  
+  .form_options a:hover {
+    text-decoration: underline;
+  }
+  
+  .signup_link {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .signup_link a {
+    color: #4682B4;
+    text-decoration: none;
+  }
+  
+  .signup_link a:hover {
+    text-decoration: underline;
+  }
+  
+  .image_container {
+    flex: 1;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image_container img {
+    height: 729px;
+    width: 635px;
+    border-spacing: -270;
+  }
+  

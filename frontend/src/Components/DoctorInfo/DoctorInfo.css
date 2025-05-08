@@ -1,0 +1,159 @@
+/* Root wrapper */
+.doctor-booking-wrapper {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header image */
+.doctor-booking-header-img img {
+  width: 100%;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+}
+
+/* Title */
+.doctor-booking-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Main content */
+.doctor-booking-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+/* Left panel */
+.doctor-booking-left {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.doctor-booking-doctor-img {
+  border-radius: 12px;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.doctor-booking-doctor-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.doctor-booking-doctor-qual {
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.doctor-booking-specialty-tag {
+  display: inline-block;
+  background-color: #d0e4ff;
+  color: #2563eb;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+.doctor-booking-fee {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.doctor-booking-about {
+  font-size: 0.875rem;
+  color: #444;
+}
+
+.doctor-booking-about-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.doctor-booking-about-text {
+  margin-top: 0.5rem;
+}
+
+/* Right panel */
+.doctor-booking-right {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.doctor-booking-calendar-box {
+  background-color: #e8f0fe;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+/* Time selection */
+.doctor-booking-time-section {
+  margin-top: 1rem;
+}
+
+.doctor-booking-time-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.doctor-booking-time-btn {
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.doctor-booking-time-btn-active {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Footer */
+.doctor-booking-footer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.doctor-booking-btn {
+  padding: 0.75rem 2rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.doctor-booking-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* Calendar overrides */
+.doctor-booking-calendar {
+  border: none;
+  font-family: 'Segoe UI', sans-serif;
+  border-radius: 12px;
+}
+
+.doctor-booking-calendar .react-calendar__tile--active {
+  background: #2563eb;
+  color: white;
+}
+
+.doctor-booking-calendar .react-calendar__tile:enabled:hover {
+  background: #dbeafe;
+}

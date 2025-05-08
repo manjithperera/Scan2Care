@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+
+.footer {
+    background-color: #333; /* Dark gray background */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .footer-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 100;
+    letter-spacing: 1px;
+  }
+  
+  .footer-subtitle {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-top: 10px;
+    font-family: 'poppins', sans-serif;
+    color: white;
+  }
+  
+  
+  .footer-description {
+    font-family: 'poppins', sans-serif;
+    font-size: 1rem;
+    margin: 10px 0;
+    text-align: center;
+    align-items: center;
+    margin-top: 40px;
+    font-weight: 100;
+    color: white;
+  }
+  
+  .footer-divider {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid white;
+    width: 95%;
+    transform: translateX(40px);
+  }
+  
+  /* Flexbox container for menu and social media */
+  .footer-row {
+    display: flex;
+    justify-content: center; /* Space between menu and social icons */
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap; /* Wrap to the next line on smaller screens */
+    gap: 40px;
+    margin: 20px 0;
+  }
+
+  .footer-menu p{
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    margin-right: 80px;
+  }
+  
+  .footer-menu {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 90px; /* Space between menu items */
+    margin: 0;
+    align-items: center;
+  }
+  
+  .footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .footer-link:hover {
+    color: #00bcd4; /* Light blue hover effect */
+  }
+  
+  .footer-social-media {
+    display: flex;
+    gap: 15px; /* Space between icons */
+    margin-left: 160px;
+  }
+  
+  /* Circular icon styles */
+  .icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border: 2px solid white; /* Circular white border */
+    border-radius: 50%; /* Makes it a perfect circle */
+    background-color: transparent; /* Transparent background */
+    color: white; /* White icons */
+    font-size: 1.5rem; /* Icon size */
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .icon-circle:hover {
+    background-color: #00bcd4; /* Light blue background on hover */
+    color: #333; /* Dark icon color on hover */
+  }

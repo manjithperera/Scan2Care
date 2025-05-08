@@ -1,0 +1,30 @@
+/* src/components/ui/Button.css */
+.Button-base {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .Button-default {
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+  
+  .Button-default:hover {
+    background-color: #0056b3;
+  }
+  
+  .Button-outline {
+    background-color: transparent;
+    color: #007bff;
+    border: 2px solid #007bff;
+  }
+  
+  .Button-outline:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  

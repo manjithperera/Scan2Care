@@ -1,0 +1,167 @@
+.signup-page-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.signup-left-section {
+  flex: 1;
+  background: #4a90e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  width: 698px;
+  height: 724px;
+}
+
+.signup-right-section {
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+.signup-form-wrapper {
+  background: #f7f9fc;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+
+.signup-logo img {
+  height: 60px;
+  margin-bottom: 20px;
+  transform: translateX(20px);
+}
+
+.signup-title {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.signup-subtitle {
+  color: #555;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-input,
+.signup-select {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.signup-input:focus,
+.signup-select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.signup-submit-button {
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.signup-submit-button:hover {
+  background: #0056b3;
+}
+
+.signup-login-link {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.signup-login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-login-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-or-divider {
+  margin-top: 20px;
+}
+
+/* Modal Styling */
+.signup-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.signup-modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.signup-modal-title {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.signup-modal-select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.signup-modal-button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-modal-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.signup-modal-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}

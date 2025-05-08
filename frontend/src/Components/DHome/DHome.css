@@ -1,0 +1,42 @@
+/* AddSessionForm.css */
+
+.add-session-container {
+    padding: 32px;
+  }
+  
+  .add-session-title {
+    margin-bottom: 32px;
+    font-weight: bold;
+  }
+  
+  .upload-label {
+    margin-bottom: 8px;
+  }
+  
+  .upload-button {
+    width: 100%;
+  }
+  
+  .calendar-paper {
+    padding: 16px;
+    background-color: #C8DAE9;
+    border-radius: 16px;
+    text-align: center;
+  }
+  
+  .calendar {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 8px;
+  }
+  
+  .calendar .MuiPickersDay-root.Mui-selected {
+    background-color: #2b68aa;
+  }
+  
+  .add-session-button {
+    margin-top: 16px;
+    background-color: #2b68aa;
+    width: 100%;
+  }
+  

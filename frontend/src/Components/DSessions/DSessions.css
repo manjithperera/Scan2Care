@@ -1,0 +1,85 @@
+.DSessions-container {
+    padding: 40px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .DSessions-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .DSessions-tab {
+    font-weight: 500;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+  }
+  
+  .DSessions-tab.DSessions-active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+    padding-bottom: 4px;
+  }
+  
+  .DSessions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Always show 3 per row */
+    gap: 30px;
+  }
+  
+  .DSessions-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #eaf2fa;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .DSessions-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .DSessions-number {
+    font-weight: bold;
+    color: #2266aa;
+    margin-bottom: 6px;
+  }
+  
+  .DSessions-name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  .DSessions-specialization,
+  .DSessions-qualifications {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .DSessions-datetime {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 4px;
+    color: #333;
+  }
+  
+  .DSessions-icon {
+    margin-right: 6px;
+    color: #333;
+  }
+  
+  .DSessions-image {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+  }
+  

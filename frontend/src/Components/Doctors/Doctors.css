@@ -1,0 +1,107 @@
+/* General Reset */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+}
+
+/* Main Container */
+.doctors_container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Header Section */
+.doctors_header_section {
+  background-color: #e0e9fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.doctors_banner_image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Search Container */
+.doctors_search_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.doctors_search_container h2 {
+  font-size: 22px;
+  color: #2b2b2b;
+}
+
+.doctors_search_container input {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Doctors Grid */
+.doctors_grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.doctors_card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.doctors_image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.doctors_card h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+}
+
+.doctors_card p {
+  color: #666;
+  font-size: 14px;
+}
+
+.doctors_details_button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  background: #3f88e5;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Pagination */
+.doctors_pagination {
+  margin-top: 20px;
+}
+
+.doctors_page {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.doctors_page.active {
+  background: #3f88e5;
+  color: white;
+}
