@@ -13,8 +13,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useSelector } from "react-redux"; // << useSelector to access doctorId
+import { useSelector } from "react-redux";
 import "./DHome.css";
+import axios from "axios";
 
 const AddSessionForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -28,78 +29,47 @@ const AddSessionForm = () => {
   const [hospital, setHospital] = useState("");
   const [summary, setSummary] = useState("");
 
-  // 🔽 Get doctorId from Redux store
-  const doctorId = useSelector((state) => state.auth?.user?.id); // Adjust path based on your actual reducer structure
+  const doctorId = useSelector((state) => state.user.doctorId);
 
-  const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
-  };
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(",")[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const formatTime = (date) => {
-    if (!date) return null;
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
-  };
-
-  const handleSubmit = async () => {
+  const handleAddSession = async () => {
     if (!doctorId) {
-      alert("Doctor ID not found. Please log in again.");
+      alert("Doctor ID not found. Please log in.");
       return;
     }
 
-    if (!imageFile) {
-      alert("Please upload an image.");
-      return;
-    }
-
-    if (!timeSlot1 && !timeSlot2) {
-      alert("Please enter at least one time slot.");
-      return;
-    }
+    const formData = new FormData();
+    formData.append("doctor_id", doctorId);
+    formData.append("doctor_name", doctorName);
+    formData.append("image", imageFile);
+    formData.append("qualifications", qualifications);
+    formData.append("time_slot", `${timeSlot1?.toLocaleTimeString()} - ${timeSlot2?.toLocaleTimeString()}`);
+    formData.append("specialization", specialization);
+    formData.append("fee", fee);
+    formData.append("hospital", hospital);
+    formData.append("summary", summary);
+    formData.append("date", selectedDate.toISOString().split("T")[0]);
 
     try {
-      const base64Image = await convertToBase64(imageFile);
-      const timeSlotsFormatted = [formatTime(timeSlot1), formatTime(timeSlot2)].filter(Boolean).join(", ");
-
-      const sessionData = {
-        doctor_id: doctorId, // ✅ Include doctorId
-        doctor_name: doctorName,
-        qualifications,
-        specialization,
-        fee,
-        hospital,
-        summary,
-        date: selectedDate.toISOString().split("T")[0],
-        time_slot: timeSlotsFormatted,
-        image: base64Image,
-      };
-
-      const response = await fetch("http://localhost:5000/add_session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(sessionData),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
+      const response = await axios.post("http://localhost:5000/add_session", formData);
+      if (response.status === 200) {
         alert("Session added successfully!");
-        console.log(result);
-      } else {
-        console.error(result);
-        alert("Failed to add session: " + result.error);
+        // Optionally reset form
+        setDoctorName("");
+        setImageFile(null);
+        setQualifications("");
+        setTimeSlot1(null);
+        setTimeSlot2(null);
+        setSpecialization("");
+        setFee("");
+        setHospital("");
+        setSummary("");
+        setSelectedDate(new Date());
+
+        // You could also fetch the latest sessions here if needed.
       }
     } catch (error) {
-      console.error("Error while submitting session:", error);
+      console.error("Error adding session:", error);
+      alert("Failed to add session.");
     }
   };
 
@@ -107,6 +77,13 @@ const AddSessionForm = () => {
     <Box className="add-session-container">
       <Typography variant="h6" className="add-session-title">
         Add Session
+      </Typography>
+
+      <Typography
+        variant="subtitle1"
+        sx={{ mt: 2, mb: 2, color: "primary.main" }}
+      >
+        Logged in Doctor ID: <strong>{doctorId || "Not Logged In"}</strong>
       </Typography>
 
       <Grid container spacing={4} justifyContent="space-between">
@@ -132,7 +109,7 @@ const AddSessionForm = () => {
                   startIcon={<CloudUploadIcon />}
                 >
                   Upload file here
-                  <input type="file" hidden onChange={handleFileChange} />
+                  <input type="file" hidden onChange={(e) => setImageFile(e.target.files[0])} />
                 </Button>
               </Grid>
             </Grid>
@@ -155,13 +132,17 @@ const AddSessionForm = () => {
                       label="Time Slot 1"
                       value={timeSlot1}
                       onChange={(newValue) => setTimeSlot1(newValue)}
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
                     />
                     <TimePicker
                       label="Time Slot 2"
                       value={timeSlot2}
                       onChange={(newValue) => setTimeSlot2(newValue)}
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
                     />
                   </LocalizationProvider>
                 </Box>
@@ -220,7 +201,8 @@ const AddSessionForm = () => {
           <Button
             variant="contained"
             className="add-session-button"
-            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+            onClick={handleAddSession}
           >
             Add Session
           </Button>

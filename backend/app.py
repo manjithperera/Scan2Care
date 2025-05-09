@@ -6,14 +6,12 @@ import numpy as np
 from PIL import Image
 import io
 import base64
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from bson.objectid import ObjectId
 import bcrypt
 from datetime import datetime
 
 app = Flask(__name__)
-
-# Enable CORS with credentials support
 CORS(app, supports_credentials=True)
 
 # MongoDB setup
@@ -26,6 +24,16 @@ session_collection = users_db["doctor_sessions"]
 # Load ML model
 model = load_model('./model/skin_cancer_model.h5')
 class_map = {0: "BCC", 1: "Melanoma", 2: "SCC"}
+
+def generate_doctor_id():
+    last_doc = doctor_collection.find_one(
+        {"doctor_id": {"$regex": "^D\\d+$"}},
+        sort=[("doctor_id", DESCENDING)]
+    )
+    if last_doc and "doctor_id" in last_doc:
+        last_id = int(last_doc["doctor_id"][1:])
+        return f"D{last_id + 1:03d}"
+    return "D001"
 
 @app.route("/register", methods=["POST"])
 def register_user():
@@ -49,7 +57,7 @@ def register_user():
                 "user_type": existing_user.get("user_type")
             }
             if user_type == "doctor":
-                user_info["doctor_id"] = str(existing_user.get("_id"))
+                user_info["doctor_id"] = existing_user.get("doctor_id")
             return jsonify({"error": "User already exists", "user": user_info}), 409
 
         user = {
@@ -59,17 +67,19 @@ def register_user():
             "password": hashed_password
         }
 
+        if user_type == "doctor":
+            user["doctor_id"] = generate_doctor_id()
+
         result = collection_ref.insert_one(user)
 
         if user_type == "doctor":
-            doctor_id = str(result.inserted_id)
             return jsonify({
                 "message": "Doctor registered successfully",
                 "user": {
                     "name": name,
                     "email": email,
                     "user_type": user_type,
-                    "doctor_id": doctor_id
+                    "doctor_id": user["doctor_id"]
                 }
             }), 201
 
@@ -106,7 +116,7 @@ def login_user():
             }
         }
         if user_type == "doctor":
-            response_data["user"]["doctor_id"] = str(user["_id"])
+            response_data["user"]["doctor_id"] = user.get("doctor_id")
 
         return jsonify(response_data), 200
 
@@ -131,26 +141,27 @@ def google_login():
                 "email": email,
                 "user_type": user_type
             }
+            if user_type == "doctor":
+                new_user["doctor_id"] = generate_doctor_id()
+
             result = collection_ref.insert_one(new_user)
-            new_user["_id"] = str(result.inserted_id)
             new_user_response = {
                 "name": name,
                 "email": email,
                 "user_type": user_type
             }
             if user_type == "doctor":
-                new_user_response["doctor_id"] = new_user["_id"]
+                new_user_response["doctor_id"] = new_user["doctor_id"]
 
             return jsonify({"message": "Google sign-in successful (new user)", "user": new_user_response}), 201
         else:
-            user["_id"] = str(user["_id"])
             response_data = {
                 "name": user["name"],
                 "email": user["email"],
                 "user_type": user["user_type"]
             }
             if user_type == "doctor":
-                response_data["doctor_id"] = user["_id"]
+                response_data["doctor_id"] = user.get("doctor_id")
             return jsonify({"message": "Google sign-in successful", "user": response_data}), 200
 
     except Exception as e:
@@ -195,13 +206,13 @@ def add_session():
             return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
 
         doctor_id = data["doctor_id"]
-        doctor = doctor_collection.find_one({"_id": ObjectId(doctor_id)})
+        doctor = doctor_collection.find_one({"doctor_id": doctor_id})
 
         if not doctor:
             return jsonify({"error": "Doctor not found"}), 404
 
         doctor_collection.update_one(
-            {"_id": ObjectId(doctor_id)},
+            {"doctor_id": doctor_id},
             {"$set": {
                 "specialization": data["specialization"],
                 "qualifications": data["qualifications"],
@@ -259,7 +270,7 @@ def get_sessions():
         sessions = list(session_collection.find())
         for session in sessions:
             session["_id"] = str(session["_id"])
-            doctor = doctor_collection.find_one({"_id": ObjectId(session["doctor_id"])})
+            doctor = doctor_collection.find_one({"doctor_id": session["doctor_id"]})
             session["doctor_image_base64"] = base64.b64encode(doctor["image_binary"]).decode("utf-8") if doctor and doctor.get("image_binary") else None
 
         return jsonify({"sessions": sessions}), 200

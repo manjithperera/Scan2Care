@@ -1,8 +1,10 @@
+// src/components/LoginForm.js
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { setUser } from '../../redux/userSlice';
+import { setUser, setDoctorId } from "../../redux/userSlice";
 import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
@@ -14,22 +16,17 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Manual login handler
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const loginData = {
-      email,
-      password,
-      userType,
-    };
+    const loginData = { email, password, userType };
 
     try {
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
       });
 
@@ -37,11 +34,13 @@ const LoginForm = () => {
 
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
+        dispatch(setUser(data.user));
+
         if (data.user.user_type === "doctor") {
-          dispatch(setUser(data.user._id));
-          navigate("/dhome");
+          dispatch(setDoctorId(data.user._id)); // Save doctorId to Redux
+          navigate("/dhome"); // Redirect to doctor's home
         } else {
-          navigate("/home");
+          navigate("/home"); // Redirect to patient home
         }
       } else {
         setError(data.error || "Login failed");
@@ -53,33 +52,26 @@ const LoginForm = () => {
     }
   };
 
+  // Google login handler
   const handleGoogleLoginSuccess = (credentialResponse) => {
-    fetch("http://localhost:5000/google_login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ credential: credentialResponse.credential }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          if (data.user.user_type === "doctor") {
-            dispatch(setUser(data.user._id));
-            navigate("/dhome");
-          } else {
-            navigate("/home");
-          }
-        } else {
-          setError("Google login failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Google login failed:", error);
-        setError("Google login failed. Please try again.");
-      });
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+
+      const user = {
+        name: decoded.name,
+        email: decoded.email,
+        picture: decoded.picture,
+        user_type: "patient", // default to patient, change if needed
+        login_method: "google",
+      };
+
+      dispatch(setUser(user)); // Set user info in Redux
+      localStorage.setItem("user", JSON.stringify(user)); // Persist user in localStorage
+      navigate("/home");
+    } catch (err) {
+      console.error("Google decode error:", err);
+      setError("Google Sign-In Failed");
+    }
   };
 
   return (
