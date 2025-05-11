@@ -205,6 +205,7 @@ const AddSessionForm = () => {
             onClick={handleAddSession}
           >
             Add Session
+            console.log('Doctor ID:', doctorId);
           </Button>
         </Grid>
       </Grid>

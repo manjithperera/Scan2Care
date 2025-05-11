@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import "./DSessions.css";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
@@ -6,21 +7,24 @@ const DSessions = () => {
   const [activeTab, setActiveTab] = useState("my");
   const [sessionsData, setSessionsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  const user = useSelector((state) => state.user);
+  const doctorId = user?._id || "";
 
-  
   useEffect(() => {
     const fetchSessions = async () => {
+      setLoading(true);
       try {
         const response = await fetch("http://localhost:5000/get_sessions");
         const data = await response.json();
         if (response.ok) {
           setSessionsData(data.sessions);
         } else {
-          console.error("Error fetching sessions:", data.error);
+          setError(data.error || "Failed to load sessions.");
         }
-      } catch (error) {
-        console.error("Error connecting to backend:", error);
+      } catch (err) {
+        setError("Unable to connect to backend.");
       } finally {
         setLoading(false);
       }
@@ -29,6 +33,9 @@ const DSessions = () => {
     fetchSessions();
   }, []);
 
+  // Filter for logged-in doctor's sessions
+  const mySessions = sessionsData.filter(session => session.doctor_id === doctorId);
+
   return (
     <div className="DSessions-container">
       <div className="DSessions-tabs">
@@ -36,24 +43,26 @@ const DSessions = () => {
           className={`DSessions-tab ${activeTab === "my" ? "DSessions-active" : ""}`}
           onClick={() => setActiveTab("my")}
         >
-          My Session
+          My Sessions
         </span>
         <span
           className={`DSessions-tab ${activeTab === "booked" ? "DSessions-active" : ""}`}
           onClick={() => setActiveTab("booked")}
         >
-          Booked sessions
+          Booked Sessions
         </span>
       </div>
 
       {loading ? (
         <p className="DSessions-loading">Loading sessions...</p>
+      ) : error ? (
+        <p className="DSessions-error">{error}</p>
       ) : (
         <div className="DSessions-grid">
-          {sessionsData.length === 0 ? (
-            <p>No sessions found.</p>
+          {(activeTab === "my" ? mySessions : []).length === 0 ? (
+            <p>No {activeTab === "my" ? "my sessions" : "booked sessions"} found.</p>
           ) : (
-            sessionsData.map((session, index) => (
+            (activeTab === "my" ? mySessions : []).map((session, index) => (
               <div key={session._id || index} className="DSessions-card">
                 <div className="DSessions-info">
                   <p className="DSessions-number">Session {index + 1}</p>

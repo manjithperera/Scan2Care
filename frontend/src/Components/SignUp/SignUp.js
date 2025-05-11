@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice"; // Adjust the path as needed
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -13,6 +15,7 @@ const SignUp = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,11 +29,13 @@ const SignUp = () => {
         body: JSON.stringify(userData),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
+        dispatch(setUser(result.user));
         navigate(userType === "doctor" ? "/dhome" : "/home");
       } else if (response.status === 409) {
-        const data = await response.json();
-        setErrorMessage(data.error || "An error occurred");
+        setErrorMessage(result.error || "An error occurred");
       } else {
         console.error("Error:", response.statusText);
       }
@@ -71,7 +76,7 @@ const SignUp = () => {
       const result = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify(result.user || googleUser));
+        dispatch(setUser(result.user || googleUser));
         setShowPopup(false);
         navigate(userType === "doctor" ? "/dhome" : "/home");
       } else if (response.status === 409) {
