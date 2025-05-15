@@ -15,7 +15,7 @@ const userSlice = createSlice({
       state.doctorId = null;
     },
     setUser: (state, action) => {
-      const { doctorId } = action.payload;
+      const { doctor_id: doctorId } = action.payload;
       state.doctorId = doctorId;
     },
   },

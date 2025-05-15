@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   TextField,
@@ -14,10 +14,12 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector } from "react-redux";
-import "./DHome.css";
-import axios from "axios";
+import "./DHome.css"; // Your custom CSS
 
 const AddSessionForm = () => {
+  const doctorId = useSelector((state) => state.user.doctorId);
+  const storedDoctorName = useSelector((state) => state.user.name || ""); // Modify key as per your Redux store
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [doctorName, setDoctorName] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -29,47 +31,90 @@ const AddSessionForm = () => {
   const [hospital, setHospital] = useState("");
   const [summary, setSummary] = useState("");
 
-  const doctorId = useSelector((state) => state.user.doctorId);
+  useEffect(() => {
+    setDoctorName(storedDoctorName); // Set name from Redux
+  }, [storedDoctorName]);
 
-  const handleAddSession = async () => {
-    if (!doctorId) {
-      alert("Doctor ID not found. Please log in.");
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const formatTime = (date) => {
+    if (!date) return null;
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+  };
+
+  const resetForm = () => {
+    setSelectedDate(new Date());
+    setImageFile(null);
+    setQualifications("");
+    setTimeSlot1(null);
+    setTimeSlot2(null);
+    setSpecialization("");
+    setFee("");
+    setHospital("");
+    setSummary("");
+  };
+
+  const handleSubmit = async () => {
+    if (!imageFile) {
+      alert("Please upload an image.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("doctor_id", doctorId);
-    formData.append("doctor_name", doctorName);
-    formData.append("image", imageFile);
-    formData.append("qualifications", qualifications);
-    formData.append("time_slot", `${timeSlot1?.toLocaleTimeString()} - ${timeSlot2?.toLocaleTimeString()}`);
-    formData.append("specialization", specialization);
-    formData.append("fee", fee);
-    formData.append("hospital", hospital);
-    formData.append("summary", summary);
-    formData.append("date", selectedDate.toISOString().split("T")[0]);
+    if (!timeSlot1 && !timeSlot2) {
+      alert("Please enter at least one time slot.");
+      return;
+    }
 
     try {
-      const response = await axios.post("http://localhost:5000/add_session", formData);
-      if (response.status === 200) {
-        alert("Session added successfully!");
-        // Optionally reset form
-        setDoctorName("");
-        setImageFile(null);
-        setQualifications("");
-        setTimeSlot1(null);
-        setTimeSlot2(null);
-        setSpecialization("");
-        setFee("");
-        setHospital("");
-        setSummary("");
-        setSelectedDate(new Date());
+      const base64Image = await convertToBase64(imageFile);
+      const timeSlotsFormatted = [formatTime(timeSlot1), formatTime(timeSlot2)]
+        .filter(Boolean)
+        .join(", ");
 
-        // You could also fetch the latest sessions here if needed.
+      const sessionData = {
+        doctor_id: doctorId,
+        doctor_name: doctorName,
+        qualifications,
+        specialization,
+        fee,
+        hospital,
+        summary,
+        date: selectedDate.toISOString().split("T")[0],
+        time_slot: timeSlotsFormatted,
+        image: base64Image,
+      };
+
+      const response = await fetch("http://localhost:5000/add_session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sessionData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("Session added successfully!");
+        console.log(result);
+        resetForm();
+      } else {
+        console.error(result);
+        alert("Failed to add session: " + result.error);
       }
     } catch (error) {
-      console.error("Error adding session:", error);
-      alert("Failed to add session.");
+      console.error("Error while submitting session:", error);
+      alert("An unexpected error occurred.");
     }
   };
 
@@ -79,23 +124,17 @@ const AddSessionForm = () => {
         Add Session
       </Typography>
 
-      <Typography
-        variant="subtitle1"
-        sx={{ mt: 2, mb: 2, color: "primary.main" }}
-      >
-        Logged in Doctor ID: <strong>{doctorId || "Not Logged In"}</strong>
-      </Typography>
-
       <Grid container spacing={4} justifyContent="space-between">
         <Grid item xs={12} md={7}>
           <Box>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Doctor Name"
                   value={doctorName}
                   onChange={(e) => setDoctorName(e.target.value)}
                   fullWidth
+                  required
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -109,16 +148,16 @@ const AddSessionForm = () => {
                   startIcon={<CloudUploadIcon />}
                 >
                   Upload file here
-                  <input type="file" hidden onChange={(e) => setImageFile(e.target.files[0])} />
+                  <input type="file" hidden onChange={handleFileChange} />
                 </Button>
               </Grid>
             </Grid>
 
-            <Grid container spacing={2} alignItems="center" mt={1}>
+            <Grid container spacing={2} mt={1}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Qualifications"
-                  placeholder="e.g MBBS, MD (Pediatrics)"
+                  placeholder="e.g MBBS, MD"
                   value={qualifications}
                   onChange={(e) => setQualifications(e.target.value)}
                   fullWidth
@@ -149,7 +188,7 @@ const AddSessionForm = () => {
               </Grid>
             </Grid>
 
-            <Grid container spacing={2} alignItems="center" mt={1}>
+            <Grid container spacing={2} mt={1}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Specialization"
@@ -161,6 +200,7 @@ const AddSessionForm = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Doctor Fee"
+                  type="number"
                   value={fee}
                   onChange={(e) => setFee(e.target.value)}
                   fullWidth
@@ -201,11 +241,10 @@ const AddSessionForm = () => {
           <Button
             variant="contained"
             className="add-session-button"
+            onClick={handleSubmit}
             sx={{ mt: 2 }}
-            onClick={handleAddSession}
           >
             Add Session
-            console.log('Doctor ID:', doctorId);
           </Button>
         </Grid>
       </Grid>

@@ -31,6 +31,8 @@ const SignUp = () => {
 
       const result = await response.json();
 
+      console.log(result)
+
       if (response.ok) {
         dispatch(setUser(result.user));
         navigate(userType === "doctor" ? "/dhome" : "/home");
@@ -75,6 +77,9 @@ const SignUp = () => {
 
       const result = await response.json();
 
+      console.log(result)
+
+      
       if (response.ok) {
         dispatch(setUser(result.user || googleUser));
         setShowPopup(false);

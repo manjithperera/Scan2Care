@@ -81,7 +81,7 @@ def register_user():
                     "user_type": user_type,
                     "doctor_id": user["doctor_id"]
                 }
-            }), 201
+            }), 
 
         return jsonify({"message": "User registered successfully"}), 201
 
@@ -194,6 +194,7 @@ def predict():
 def add_session():
     try:
         data = request.get_json()
+        print(data)
         required_fields = ["doctor_name", "qualifications", "specialization", "hospital", "summary", "image", "time_slot", "fee", "date", "doctor_id"]
         if not all(field in data for field in required_fields):
             missing_fields = [field for field in required_fields if field not in data]
@@ -229,7 +230,8 @@ def add_session():
             "qualifications": data["qualifications"],
             "date": data["date"],
             "time": data["time_slot"],
-            "fee": data["fee"]
+            "fee": data["fee"],
+            "image_binary": base64.b64decode(data["image"])
         }
 
         session_collection.insert_one(session)
