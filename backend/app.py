@@ -42,7 +42,11 @@ def register_user():
         if not data:
             return jsonify({"error": "Invalid JSON or no data provided"}), 400
 
-        name, email, user_type, password = data.get("name"), data.get("email"), data.get("userType"), data.get("password")
+        name = data.get("name")
+        email = data.get("email")
+        user_type = data.get("userType")
+        password = data.get("password")
+
         if not all([name, email, user_type, password]):
             return jsonify({"error": "All fields are required"}), 400
 
@@ -70,20 +74,17 @@ def register_user():
         if user_type == "doctor":
             user["doctor_id"] = generate_doctor_id()
 
-        result = collection_ref.insert_one(user)
+        collection_ref.insert_one(user)
 
+        user_response = {
+            "name": name,
+            "email": email,
+            "user_type": user_type
+        }
         if user_type == "doctor":
-            return jsonify({
-                "message": "Doctor registered successfully",
-                "user": {
-                    "name": name,
-                    "email": email,
-                    "user_type": user_type,
-                    "doctor_id": user["doctor_id"]
-                }
-            }), 
+            user_response["doctor_id"] = user["doctor_id"]
 
-        return jsonify({"message": "User registered successfully"}), 201
+        return jsonify({"message": "User registered successfully", "user": user_response}), 201
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -95,7 +96,10 @@ def login_user():
         if not data:
             return jsonify({"error": "Invalid JSON or no data provided"}), 400
 
-        email, password, user_type = data.get("email"), data.get("password"), data.get("userType")
+        email = data.get("email")
+        password = data.get("password")
+        user_type = data.get("userType")
+
         if not all([email, password, user_type]):
             return jsonify({"error": "All fields are required"}), 400
 
@@ -104,21 +108,19 @@ def login_user():
 
         if not user:
             return jsonify({"error": "User not found"}), 404
+
         if not bcrypt.checkpw(password.encode('utf-8'), user.get("password")):
             return jsonify({"error": "Incorrect password"}), 401
 
-        response_data = {
-            "message": "Login successful",
-            "user": {
-                "name": user["name"],
-                "email": user["email"],
-                "user_type": user["user_type"]
-            }
+        user_info = {
+            "name": user["name"],
+            "email": user["email"],
+            "user_type": user["user_type"]
         }
         if user_type == "doctor":
-            response_data["user"]["doctor_id"] = user.get("doctor_id")
+            user_info["doctor_id"] = user["doctor_id"]
 
-        return jsonify(response_data), 200
+        return jsonify({"message": "Login successful", "user": user_info}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -127,7 +129,9 @@ def login_user():
 def google_login():
     try:
         data = request.get_json()
-        name, email, user_type = data.get("name"), data.get("email"), data.get("userType")
+        name = data.get("name")
+        email = data.get("email")
+        user_type = data.get("userType")
 
         if not all([name, email, user_type]):
             return jsonify({"error": "Fields name, email, and userType are required"}), 400
@@ -144,25 +148,27 @@ def google_login():
             if user_type == "doctor":
                 new_user["doctor_id"] = generate_doctor_id()
 
-            result = collection_ref.insert_one(new_user)
-            new_user_response = {
+            collection_ref.insert_one(new_user)
+
+            response_data = {
                 "name": name,
                 "email": email,
                 "user_type": user_type
             }
             if user_type == "doctor":
-                new_user_response["doctor_id"] = new_user["doctor_id"]
+                response_data["doctor_id"] = new_user["doctor_id"]
 
-            return jsonify({"message": "Google sign-in successful (new user)", "user": new_user_response}), 201
-        else:
-            response_data = {
-                "name": user["name"],
-                "email": user["email"],
-                "user_type": user["user_type"]
-            }
-            if user_type == "doctor":
-                response_data["doctor_id"] = user.get("doctor_id")
-            return jsonify({"message": "Google sign-in successful", "user": response_data}), 200
+            return jsonify({"message": "Google sign-in successful (new user)", "user": response_data}), 201
+
+        response_data = {
+            "name": user["name"],
+            "email": user["email"],
+            "user_type": user["user_type"]
+        }
+        if user_type == "doctor":
+            response_data["doctor_id"] = user["doctor_id"]
+
+        return jsonify({"message": "Google sign-in successful", "user": response_data}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -185,7 +191,7 @@ def predict():
             predicted_class = np.argmax(pred, axis=1)[0]
             predictions.append(class_map.get(predicted_class, "Unknown"))
 
-        return jsonify({"predictions": predictions})
+        return jsonify({"predictions": predictions}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -194,13 +200,11 @@ def predict():
 def add_session():
     try:
         data = request.get_json()
-        print(data)
         required_fields = ["doctor_name", "qualifications", "specialization", "hospital", "summary", "image", "time_slot", "fee", "date", "doctor_id"]
         if not all(field in data for field in required_fields):
             missing_fields = [field for field in required_fields if field not in data]
-            return jsonify({"error": f"Missing required fields: {', '.join(missing_fields)}"}), 400
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
-        # Validate date
         try:
             datetime.strptime(data["date"], "%Y-%m-%d")
         except ValueError:
@@ -208,7 +212,6 @@ def add_session():
 
         doctor_id = data["doctor_id"]
         doctor = doctor_collection.find_one({"doctor_id": doctor_id})
-
         if not doctor:
             return jsonify({"error": "Doctor not found"}), 404
 
@@ -266,18 +269,57 @@ def get_doctor_info():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/get_sessions", methods=["GET"])
+@app.route("/get_sessions", methods=["POST"])
 def get_sessions():
     try:
-        sessions = list(session_collection.find())
-        for session in sessions:
-            session["_id"] = str(session["_id"])
-            doctor = doctor_collection.find_one({"doctor_id": session["doctor_id"]})
-            session["doctor_image_base64"] = base64.b64encode(doctor["image_binary"]).decode("utf-8") if doctor and doctor.get("image_binary") else None
+        data = request.get_json()
+        doctor_id = data.get("doctor_id")
+
+        if not doctor_id:
+            return jsonify({"error": "Doctor ID is required"}), 400
+
+        sessions_cursor = session_collection.find({"doctor_id": doctor_id})
+        sessions = []
+        for session in sessions_cursor:
+            session_data = {
+                "_id": str(session.get("_id")),
+                "doctor_id": session.get("doctor_id"),
+                "doctor_name": session.get("doctor_name"),
+                "specialization": session.get("specialization"),
+                "qualifications": session.get("qualifications"),
+                "date": session.get("date"),
+                "time": session.get("time"),
+                "fee": session.get("fee"),
+                "doctor_image_base64": base64.b64encode(session.get("image_binary")).decode("utf-8") if session.get("image_binary") else None
+            }
+            sessions.append(session_data)
 
         return jsonify({"sessions": sessions}), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@app.route("/get_all_doctors", methods=["GET"])
+def get_all_doctors():
+    try:
+        doctors_cursor = doctor_collection.find()
+        doctors = []
+        for doc in doctors_cursor:
+            doctor_data = {
+                "_id": str(doc.get("_id")),
+                "name": doc.get("name"),
+                "specialization": doc.get("specialization", ""),
+                "qualifications": doc.get("qualifications", ""),
+                "hospital": doc.get("hospital", ""),
+                "summary": doc.get("summary", ""),
+                "image_base64": base64.b64encode(doc.get("image_binary")).decode("utf-8") if doc.get("image_binary") else None
+            }
+            doctors.append(doctor_data)
+        return jsonify({"doctors": doctors}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)

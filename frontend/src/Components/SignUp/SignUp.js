@@ -31,8 +31,6 @@ const SignUp = () => {
 
       const result = await response.json();
 
-      console.log(result)
-
       if (response.ok) {
         dispatch(setUser(result.user));
         navigate(userType === "doctor" ? "/dhome" : "/home");
@@ -51,8 +49,6 @@ const SignUp = () => {
       const decoded = jwtDecode(credentialResponse.credential);
       setGoogleUser(decoded);
       setShowPopup(true);
-      console.log("Google user:", decoded);
-      console.log("Popup should now be visible");
     } catch (err) {
       console.error("Google login failed:", err);
     }
@@ -77,9 +73,6 @@ const SignUp = () => {
 
       const result = await response.json();
 
-      console.log(result)
-
-      
       if (response.ok) {
         dispatch(setUser(result.user || googleUser));
         setShowPopup(false);

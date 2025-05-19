@@ -3,35 +3,45 @@ import { useSelector } from "react-redux";
 import "./DSessions.css";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
+
 const DSessions = () => {
   const [activeTab, setActiveTab] = useState("my");
   const [sessionsData, setSessionsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const user = useSelector((state) => state.user);
-  const doctorId = user?._id || "";
+  const doctorId = useSelector((state) => state.user.doctorId);
+  
 
-  useEffect(() => {
-    const fetchSessions = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("http://localhost:5000/get_sessions");
-        const data = await response.json();
-        if (response.ok) {
-          setSessionsData(data.sessions);
-        } else {
-          setError(data.error || "Failed to load sessions.");
-        }
-      } catch (err) {
-        setError("Unable to connect to backend.");
-      } finally {
-        setLoading(false);
+ useEffect(() => {
+  const fetchSessions = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/get_sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ doctor_id: doctorId }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSessionsData(data.sessions);
+      } else {
+        setError(data.error || "Failed to load sessions.");
       }
-    };
+    } catch (err) {
+      setError("Unable to connect to backend.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  if (doctorId) {
     fetchSessions();
-  }, []);
+  }
+}, [doctorId]);
+
 
   // Filter for logged-in doctor's sessions
   const mySessions = sessionsData.filter(session => session.doctor_id === doctorId);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Doctors.css"; // This CSS file will have classes prefixed with doctors_
+import "./Doctors.css"; // Ensure this CSS file exists and is correctly linked
 
 const DoctorsList = () => {
   const [doctors, setDoctors] = useState([]);
@@ -7,7 +7,6 @@ const DoctorsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const doctorsPerPage = 8;
 
-  // Fetch doctors from the backend
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -63,11 +62,15 @@ const DoctorsList = () => {
       <div className="doctors_grid">
         {selectedDoctors.map((doctor) => (
           <div key={doctor._id} className="doctors_card">
-            <img
-              src={`data:image/png;base64,${doctor.image_base64}`}
-              alt={doctor.name}
-              className="doctors_image"
-            />
+            {doctor.image_base64 ? (
+              <img
+                src={`data:image/png;base64,${doctor.image_base64}`}
+                alt={doctor.name}
+                className="doctors_image"
+              />
+            ) : (
+              <div className="doctors_image_placeholder">No Image</div>
+            )}
             <h3>{doctor.name}</h3>
             <p>{doctor.specialization}</p>
             <button className="doctors_details_button">More Details</button>
