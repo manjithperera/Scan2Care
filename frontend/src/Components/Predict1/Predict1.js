@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import styles from './Predict1.module.css'
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import {Link} from 'react-router-dom';
 
 const SymptomsStep = () => {
   const [symptoms, setSymptoms] = useState("");
 
   return (
+    <div>
+      <Navbar />
     <div className={styles.symptoms_container}>
       {/* ✅ Static Header Section */}
       <div className={styles.header_section}>
@@ -52,9 +57,11 @@ const SymptomsStep = () => {
 
       {/* ✅ Navigation Buttons */}
       <div className={styles.button_container}>
-        <button className={styles.back_button}>Back</button>
-        <button className={styles.next_button}>Next</button>
+        <Link to="/Home"><button className={styles.back_button}>Back</button></Link>
+        <Link to="/Predict2"><button className={styles.next_button}>Next</button></Link>
       </div>
+    </div>
+      <Footer/>
     </div>
   );
 };

@@ -1,8 +1,13 @@
 import React from "react";
-import styles from "./Predict3.module.css"; // Ensure you have the correct CSS file
+import styles from "./Predict3.module.css";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import {Link} from 'react-router-dom';
 
 const Questionnaire = () => {
   return (
+    <div>
+     <Navbar />
     <div className={styles.questionnaire_container}>
       {/* Header Section */}
       <div className={styles.header_section}>
@@ -75,9 +80,11 @@ const Questionnaire = () => {
 
       {/* Navigation Buttons */}
       <div className={styles.button_container}>
-        <button className={styles.back_button}>BACK</button>
-        <button className={styles.next_button}>NEXT</button>
+        <Link to="/Predict2"><button className={styles.back_button}>BACK</button></Link>
+        <Link to="/Predict4"><button className={styles.next_button}>NEXT</button></Link>
       </div>
+    </div>
+      <Footer/>
     </div>
   );
 };

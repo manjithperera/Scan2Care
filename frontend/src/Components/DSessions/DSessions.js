@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./DSessions.css";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
-
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const DSessions = () => {
   const [activeTab, setActiveTab] = useState("my");
@@ -43,10 +44,11 @@ const DSessions = () => {
 }, [doctorId]);
 
 
-  // Filter for logged-in doctor's sessions
   const mySessions = sessionsData.filter(session => session.doctor_id === doctorId);
 
   return (
+    <div>
+       <Navbar />
     <div className="DSessions-container">
       <div className="DSessions-tabs">
         <span
@@ -107,6 +109,8 @@ const DSessions = () => {
           )}
         </div>
       )}
+    </div>
+    <Footer/>
     </div>
   );
 };

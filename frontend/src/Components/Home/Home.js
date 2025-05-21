@@ -1,10 +1,14 @@
 // App.js
 import React from 'react';
 import styles from './Home.module.css';
-
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import { Link } from 'react-router-dom';
 
 const App = () => {
   return (
+    <div>
+      <Navbar />
     <div className={styles.btn_primary}>
       {/* Hero Section */}
       <section className={styles.hero}>
@@ -16,7 +20,7 @@ const App = () => {
             Our advanced image-processing technology focuses on detecting and diagnosing skin
             diseases, offering accurate solutions tailored to prioritize your skin health.
           </p>
-          <button className="btn-primary">Get Started</button>
+          <Link to="/Predict1"> <button className="btn-primary">Get Started</button> </Link>
         </div>
       </section>
 
@@ -101,6 +105,8 @@ const App = () => {
           </div>
         </div>
       </section>
+    </div>
+    <Footer/>
     </div>
   );
 };

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./Predict2.css";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import { Link } from "react-router-dom";
 
 const Predict2ImageUpload = ({ onNext, onBack }) => {
   const [images, setImages] = useState([null, null, null]);
@@ -48,6 +51,8 @@ const Predict2ImageUpload = ({ onNext, onBack }) => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="Predict2-container">
       {/* Header Section */}
       <div className="Predict2-header">
@@ -90,7 +95,10 @@ const Predict2ImageUpload = ({ onNext, onBack }) => {
 
       {/* Navigation Buttons */}
       <div className="Predict2-buttons">
+        <Link to ="/predict1">
         <button className="Predict2-back-button" onClick={onBack}>BACK</button>
+        </Link>
+        <Link to = "/predict3">
         <button 
           className="Predict2-next-button" 
           onClick={handleNextClick}
@@ -98,6 +106,7 @@ const Predict2ImageUpload = ({ onNext, onBack }) => {
         >
           {loading ? "Processing..." : "NEXT"}
         </button>
+        </Link>
       </div>
 
       {/* Predictions (for dev) */}
@@ -111,6 +120,8 @@ const Predict2ImageUpload = ({ onNext, onBack }) => {
           </ul>
         </div>
       )}
+    </div>
+      <Footer/>
     </div>
   );
 };

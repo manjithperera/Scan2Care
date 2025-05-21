@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from "react";
-import "./Doctors.css"; // Ensure this CSS file exists and is correctly linked
+import { useNavigate } from "react-router-dom";
+import "./Doctors.css"; 
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const DoctorsList = () => {
   const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const doctorsPerPage = 8;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch("/get_all_doctors");
-        const data = await response.json();
-        if (response.ok) {
-          setDoctors(data.doctors);
+        const response = await fetch("http://localhost:5000/get_all_doctors", {
+          credentials: "include", // Include cookies if needed
+        });
+
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          if (response.ok) {
+            setDoctors(data.doctors);
+          } else {
+            console.error("Backend error:", data.error);
+          }
         } else {
-          console.error(data.error);
+          const text = await response.text();
+          console.error("Non-JSON response received:", text);
         }
       } catch (error) {
         console.error("Error fetching doctors:", error);
@@ -36,7 +50,13 @@ const DoctorsList = () => {
     startIndex + doctorsPerPage
   );
 
+  const handleMoreDetails = (doctorId) => {
+    navigate(`/doctorinfo/${doctorId}`);
+  };
+
   return (
+    <div>
+       <Navbar />
     <div className="doctors_container">
       {/* Header Section */}
       <div className="doctors_header_section">
@@ -73,7 +93,12 @@ const DoctorsList = () => {
             )}
             <h3>{doctor.name}</h3>
             <p>{doctor.specialization}</p>
-            <button className="doctors_details_button">More Details</button>
+            <button
+              className="doctors_details_button"
+              onClick={() => handleMoreDetails(doctor._id)}
+            >
+              More Details
+            </button>
           </div>
         ))}
       </div>
@@ -90,6 +115,8 @@ const DoctorsList = () => {
           </span>
         ))}
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };

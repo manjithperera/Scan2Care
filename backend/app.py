@@ -243,14 +243,12 @@ def add_session():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/get_doctor_info", methods=["GET"])
-def get_doctor_info():
-    try:
-        doctor_name = request.args.get("doctor_name")
-        if not doctor_name:
-            return jsonify({"error": "Doctor name is required"}), 400
 
-        doctor = doctor_collection.find_one({"name": doctor_name})
+
+@app.route("/get_doctor_info/<doctor_id>", methods=["GET"])
+def get_doctor_info(doctor_id):
+    try:
+        doctor = doctor_collection.find_one({"_id": ObjectId(doctor_id)})
         if not doctor:
             return jsonify({"error": "Doctor not found"}), 404
 
@@ -262,12 +260,15 @@ def get_doctor_info():
             "qualifications": doctor["qualifications"],
             "hospital": doctor["hospital"],
             "summary": doctor["summary"],
+            "fee": doctor.get("fee", "N/A"),
             "image_base64": image_base64
         }
 
         return jsonify({"doctor": doctor_data}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
 
 @app.route("/get_sessions", methods=["POST"])
 def get_sessions():
@@ -298,7 +299,6 @@ def get_sessions():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
 
 @app.route("/get_all_doctors", methods=["GET"])
 def get_all_doctors():
@@ -319,6 +319,30 @@ def get_all_doctors():
         return jsonify({"doctors": doctors}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route("/get_times_by_date", methods=["POST"])
+def get_times_by_date():
+    try:
+        data = request.get_json()
+        date = data.get("date")
+        if not date:
+            return jsonify({"error": "Date is required"}), 400
+
+        sessions_cursor = session_collection.find({"date": date})
+        sessions = []
+        for session in sessions_cursor:
+            session_data = {
+                "doctor_id": session.get("doctor_id"),
+                "time": session.get("time"),
+                "date": session.get("date"),
+                # Add any other needed fields here
+            }
+            sessions.append(session_data)
+
+        return jsonify(sessions), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == "__main__":

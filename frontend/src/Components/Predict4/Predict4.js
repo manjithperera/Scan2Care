@@ -1,14 +1,19 @@
 import React from "react";
-import styles from "./Predict4.module.css";  // Ensure you have the correct CSS file
+import styles from "./Predict4.module.css";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import {Link} from 'react-router-dom';
 
 const DiagnosisResult = () => {
   return (
+    <div>
+    <Navbar />
     <div className={styles.diagnosis_container}>
       {/* Header Section */}
       <div className={styles.header_section}>
         <img
           className={styles.user_image}
-          src="/images/face-symptoms.png" // Replace with actual image path
+          src="/images/face-symptoms.png" 
           alt="User with skin condition"
         />
         <div className={styles.header_text}>
@@ -45,9 +50,11 @@ const DiagnosisResult = () => {
 
       {/* Navigation Buttons */}
       <div className={styles.button_container}>
-        <button className={styles.back_button}>BACK</button>
-        <button className={styles.explore_button}>Explore Now</button>
+        <Link to="/Predict3"><button className={styles.back_button}>BACK</button></Link>
+        <Link to="/Doctors"><button className={styles.explore_button}>Explore Now</button></Link>
       </div>
+    </div>
+      <Footer/>
     </div>
   );
 };

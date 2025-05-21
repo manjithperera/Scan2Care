@@ -14,7 +14,9 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector } from "react-redux";
-import "./DHome.css"; // Your custom CSS
+import "./DHome.css"; 
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const AddSessionForm = () => {
   const doctorId = useSelector((state) => state.user.doctorId);
@@ -119,6 +121,8 @@ const AddSessionForm = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <Box className="add-session-container">
       <Typography variant="h6" className="add-session-title">
         Add Session
@@ -249,6 +253,8 @@ const AddSessionForm = () => {
         </Grid>
       </Grid>
     </Box>
+    <Footer/>
+    </div>
   );
 };
 

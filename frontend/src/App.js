@@ -16,7 +16,7 @@ import DoctorInfo from './Components/DoctorInfo/DoctorInfo';
 import USessions from './Components/USessions/USessions';
 import DHome from './Components/DHome/DHome';
 import DSessions from './Components/DSessions/DSessions';
-import DBookedSessions from './Components/DBookedSessions/DBookedSessions';
+
 
 
 function App() 
@@ -48,7 +48,7 @@ function App()
           {/* Define the route for Doctors */}
           <Route path="/Doctors" element={<Doctors />} />
           {/* Define the route for DoctorInfo */}
-          <Route path="/DoctorInfo" element={<DoctorInfo />} />
+          <Route path="/doctorinfo/:doctorId" element={<DoctorInfo />} />
           {/* Define the route for USessions */}
           <Route path="/USessions" element={<USessions />} />
           {/* Define the route for DHome */}
@@ -56,8 +56,6 @@ function App()
           {/* Define the route for DSessions */}
           <Route path="/DSessions" element={<DSessions />} />
           {/* Define the route for DBookedSessions */}
-          <Route path="/DBookedSessions" element={<DBookedSessions />} />
-          {/* <Route path="/DoctorInfo" element={<DoctorBooking />} /> */}
         </Routes>
       </div>
     </Router>

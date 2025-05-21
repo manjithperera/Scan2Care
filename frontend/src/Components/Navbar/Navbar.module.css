@@ -12,6 +12,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
+  border: 1px solid #9a9a9a; /* Added black border */
 }
 
 .navbar_container {

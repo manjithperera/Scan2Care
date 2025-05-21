@@ -1,6 +1,7 @@
 import React from "react";
 import "./USessions.css";
-// Replace with correct image path
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const sessions = [
   {
@@ -28,6 +29,8 @@ const sessions = [
 
 const USessions = () => {
   return (
+    <div>
+      <Navbar />
     <div className="USessions-container">
       <div className="USessions-left">
         <h2 className="USessions-title">My Session</h2>
@@ -55,6 +58,8 @@ const USessions = () => {
       <div className="USessions-right">
         <img src="/images/Frame 3592.png" alt="Doctor" className="USessions-image" />
       </div>
+    </div>
+      <Footer/>
     </div>
   );
 };
