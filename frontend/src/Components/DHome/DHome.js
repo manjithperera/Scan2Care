@@ -14,13 +14,15 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector } from "react-redux";
-import "./DHome.css"; 
+import "./DHome.css";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const AddSessionForm = () => {
+  const navigate = useNavigate();
   const doctorId = useSelector((state) => state.user.doctorId);
-  const storedDoctorName = useSelector((state) => state.user.name || ""); // Modify key as per your Redux store
+  const storedDoctorName = useSelector((state) => state.user.name || "");
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [doctorName, setDoctorName] = useState("");
@@ -34,7 +36,7 @@ const AddSessionForm = () => {
   const [summary, setSummary] = useState("");
 
   useEffect(() => {
-    setDoctorName(storedDoctorName); // Set name from Redux
+    setDoctorName(storedDoctorName);
   }, [storedDoctorName]);
 
   const handleFileChange = (e) => {
@@ -52,7 +54,11 @@ const AddSessionForm = () => {
 
   const formatTime = (date) => {
     if (!date) return null;
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   };
 
   const resetForm = () => {
@@ -110,6 +116,7 @@ const AddSessionForm = () => {
         alert("Session added successfully!");
         console.log(result);
         resetForm();
+        navigate("/dsessions"); // ✅ Redirect here
       } else {
         console.error(result);
         alert("Failed to add session: " + result.error);
@@ -123,137 +130,137 @@ const AddSessionForm = () => {
   return (
     <div>
       <Navbar />
-    <Box className="add-session-container">
-      <Typography variant="h6" className="add-session-title">
-        Add Session
-      </Typography>
+      <Box className="add-session-container">
+        <Typography variant="h6" className="add-session-title">
+          Add Session
+        </Typography>
 
-      <Grid container spacing={4} justifyContent="space-between">
-        <Grid item xs={12} md={7}>
-          <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Doctor Name"
-                  value={doctorName}
-                  onChange={(e) => setDoctorName(e.target.value)}
-                  fullWidth
-                  required
-                />
+        <Grid container spacing={4} justifyContent="space-between">
+          <Grid item xs={12} md={7}>
+            <Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Doctor Name"
+                    value={doctorName}
+                    onChange={(e) => setDoctorName(e.target.value)}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <InputLabel shrink className="upload-label">
+                    Upload Image
+                  </InputLabel>
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    className="upload-button"
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Upload file here
+                    <input type="file" hidden onChange={handleFileChange} />
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <InputLabel shrink className="upload-label">
-                  Upload Image
-                </InputLabel>
-                <Button
-                  variant="outlined"
-                  component="label"
-                  className="upload-button"
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Upload file here
-                  <input type="file" hidden onChange={handleFileChange} />
-                </Button>
-              </Grid>
-            </Grid>
 
-            <Grid container spacing={2} mt={1}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Qualifications"
-                  placeholder="e.g MBBS, MD"
-                  value={qualifications}
-                  onChange={(e) => setQualifications(e.target.value)}
-                  fullWidth
-                />
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Qualifications"
+                    placeholder="e.g MBBS, MD"
+                    value={qualifications}
+                    onChange={(e) => setQualifications(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <InputLabel shrink>Time Slots</InputLabel>
+                  <Box display="flex" gap={1}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <TimePicker
+                        label="Time Slot 1"
+                        value={timeSlot1}
+                        onChange={(newValue) => setTimeSlot1(newValue)}
+                        renderInput={(params) => (
+                          <TextField {...params} fullWidth />
+                        )}
+                      />
+                      <TimePicker
+                        label="Time Slot 2"
+                        value={timeSlot2}
+                        onChange={(newValue) => setTimeSlot2(newValue)}
+                        renderInput={(params) => (
+                          <TextField {...params} fullWidth />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <InputLabel shrink>Time Slots</InputLabel>
-                <Box display="flex" gap={1}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <TimePicker
-                      label="Time Slot 1"
-                      value={timeSlot1}
-                      onChange={(newValue) => setTimeSlot1(newValue)}
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth />
-                      )}
-                    />
-                    <TimePicker
-                      label="Time Slot 2"
-                      value={timeSlot2}
-                      onChange={(newValue) => setTimeSlot2(newValue)}
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth />
-                      )}
-                    />
-                  </LocalizationProvider>
-                </Box>
-              </Grid>
-            </Grid>
 
-            <Grid container spacing={2} mt={1}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Specialization"
-                  value={specialization}
-                  onChange={(e) => setSpecialization(e.target.value)}
-                  fullWidth
-                />
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Specialization"
+                    value={specialization}
+                    onChange={(e) => setSpecialization(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Doctor Fee"
+                    type="number"
+                    value={fee}
+                    onChange={(e) => setFee(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Doctor Fee"
-                  type="number"
-                  value={fee}
-                  onChange={(e) => setFee(e.target.value)}
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
 
-            <TextField
-              label="Working in Hospital"
-              value={hospital}
-              onChange={(e) => setHospital(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Professional Summary"
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-            />
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} md={5} mt={3}>
-          <Paper elevation={2} className="calendar-paper">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateCalendar
-                value={selectedDate}
-                onChange={(newValue) => setSelectedDate(newValue)}
-                className="calendar"
+              <TextField
+                label="Working in Hospital"
+                value={hospital}
+                onChange={(e) => setHospital(e.target.value)}
+                fullWidth
+                margin="normal"
               />
-            </LocalizationProvider>
-          </Paper>
+              <TextField
+                label="Professional Summary"
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+              />
+            </Box>
+          </Grid>
 
-          <Button
-            variant="contained"
-            className="add-session-button"
-            onClick={handleSubmit}
-            sx={{ mt: 2 }}
-          >
-            Add Session
-          </Button>
+          <Grid item xs={12} md={5} mt={3}>
+            <Paper elevation={2} className="calendar-paper">
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateCalendar
+                  value={selectedDate}
+                  onChange={(newValue) => setSelectedDate(newValue)}
+                  className="calendar"
+                />
+              </LocalizationProvider>
+            </Paper>
+
+            <Button
+              variant="contained"
+              className="add-session-button"
+              onClick={handleSubmit}
+              sx={{ mt: 2 }}
+            >
+              Add Session
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
-    <Footer/>
+      </Box>
+      <Footer />
     </div>
   );
 };

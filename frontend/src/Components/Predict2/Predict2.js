@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import "./Predict2.css";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Predict2ImageUpload = ({ onNext, onBack }) => {
+const Predict2ImageUpload = () => {
   const [images, setImages] = useState([null, null, null]);
   const [files, setFiles] = useState([null, null, null]);
-  const [loading, setLoading] = useState(false);
-  const [predictions, setPredictions] = useState([]);
+  const navigate = useNavigate();
 
   const handleImageUpload = (event, index) => {
     const file = event.target.files[0];
@@ -22,106 +21,61 @@ const Predict2ImageUpload = ({ onNext, onBack }) => {
     }
   };
 
-  const handleNextClick = async () => {
-    const formData = new FormData();
-    files.forEach((file) => {
-      if (file) formData.append("files", file);
-    });
-
-    setLoading(true);
-    try {
-      const response = await fetch("http://localhost:5000/predict", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-      setPredictions(data.predictions);
-      setLoading(false);
-
-      console.log("Predictions:", data.predictions);
-
-      // Optional: send predictions to next page
-      onNext(data.predictions);
-
-    } catch (error) {
-      console.error("Error uploading images:", error);
-      setLoading(false);
+  const handleNextClick = () => {
+    const uploadedFiles = files.filter(file => file);
+    if (uploadedFiles.length === 0) {
+      alert("Please upload at least one image.");
+      return;
     }
+
+    navigate("/predict3", { state: { uploadedFiles } });
   };
 
   return (
     <div>
       <Navbar />
-    <div className="Predict2-container">
-      {/* Header Section */}
-      <div className="Predict2-header">
-        <div className="Predict2-header-content">
-          <img src="/images/skin-banner.png" alt="Skin Analysis" className="Predict2-header-image" />
-          <h2 className="Predict2-title">Understand Your Skin Better with AI-Powered Insights</h2>
+      <div className="Predict2-container">
+        <div className="Predict2-header">
+          <div className="Predict2-header-content">
+            <img src="/images/Group 1000002611 copy.png" alt="Skin Analysis" className="Predict2-header-image" />
+            <h2 className="Predict2-title">Understand Your Skin Better with AI-Powered Insights</h2>
+          </div>
+        </div>
+
+        <div className="Predict2-progress-bar">
+          <div className="Predict2-progress-step Predict2-completed">✔ Symptoms</div>
+          <div className="Predict2-progress-line"></div>
+          <div className="Predict2-progress-step Predict2-active">02 Images</div>
+          <div className="Predict2-progress-line"></div>
+          <div className="Predict2-progress-step">03 Questionnaire</div>
+        </div>
+
+        <p className="Predict2-instructions">
+          Share images of the skin concern for precise AI-based analysis.
+        </p>
+
+        <div className="Predict2-upload-container">
+          {images.map((image, index) => (
+            <label key={index} className="Predict2-upload-box">
+              {image ? (
+                <img src={image} alt={`Uploaded ${index + 1}`} className="Predict2-uploaded-image" />
+              ) : (
+                <div className="Predict2-upload-placeholder">
+                  <img src="/images/upload-icon.png" alt="Upload" className="Predict2-upload-icon" />
+                  <span>Upload here</span>
+                </div>
+              )}
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, index)} />
+            </label>
+          ))}
+        </div>
+
+        <div className="Predict2-buttons">
+          <button className="Predict2-back-button" onClick={() => navigate("/predict1")}>BACK</button>
+          <button className="Predict2-next-button" onClick={handleNextClick}>NEXT</button>
         </div>
       </div>
-
-      {/* Progress Indicator */}
-      <div className="Predict2-progress-bar">
-        <div className="Predict2-progress-step Predict2-completed">✔ Symptoms</div>
-        <div className="Predict2-progress-line"></div>
-        <div className="Predict2-progress-step Predict2-active">02 Images</div>
-        <div className="Predict2-progress-line"></div>
-        <div className="Predict2-progress-step">03 Questionnaire</div>
-      </div>
-
-      {/* Upload Instructions */}
-      <p className="Predict2-instructions">
-        Share images of the skin concern for precise AI-based analysis. Ensure good lighting and clarity for the best results.
-      </p>
-
-      {/* Upload Boxes */}
-      <div className="Predict2-upload-container">
-        {images.map((image, index) => (
-          <label key={index} className="Predict2-upload-box">
-            {image ? (
-              <img src={image} alt={`Uploaded ${index + 1}`} className="Predict2-uploaded-image" />
-            ) : (
-              <div className="Predict2-upload-placeholder">
-                <img src="/images/upload-icon.png" alt="Upload" className="Predict2-upload-icon" />
-                <span>Upload here</span>
-              </div>
-            )}
-            <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, index)} />
-          </label>
-        ))}
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="Predict2-buttons">
-        <Link to ="/predict1">
-        <button className="Predict2-back-button" onClick={onBack}>BACK</button>
-        </Link>
-        <Link to = "/predict3">
-        <button 
-          className="Predict2-next-button" 
-          onClick={handleNextClick}
-          disabled={!files.some(f => f !== null) || loading}
-        >
-          {loading ? "Processing..." : "NEXT"}
-        </button>
-        </Link>
-      </div>
-
-      {/* Predictions (for dev) */}
-      {predictions.length > 0 && (
-        <div className="Predict2-results">
-          <h3>Predictions:</h3>
-          <ul>
-            {predictions.map((p, i) => (
-              <li key={i}>Image {i + 1}: {p}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

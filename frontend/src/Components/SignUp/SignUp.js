@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice"; // Adjust the path as needed
+import { setUser } from "../../redux/userSlice";
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -16,6 +16,17 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const normalizeUserData = (user) => {
+    return {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      user_type: user.user_type,
+      doctor_id: user.doctor_id ?? null,
+      patient_id: user.patient_id ?? null,
+    };
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +43,8 @@ const SignUp = () => {
       const result = await response.json();
 
       if (response.ok) {
-        dispatch(setUser(result.user));
+        const normalized = normalizeUserData(result.user);
+        dispatch(setUser(normalized));
         navigate(userType === "doctor" ? "/dhome" : "/home");
       } else if (response.status === 409) {
         setErrorMessage(result.error || "An error occurred");
@@ -61,7 +73,7 @@ const SignUp = () => {
       name: googleUser.name,
       email: googleUser.email,
       userType,
-      password: "google-oauth", // dummy password
+      password: "google-oauth",
     };
 
     try {
@@ -73,12 +85,11 @@ const SignUp = () => {
 
       const result = await response.json();
 
-      if (response.ok) {
-        dispatch(setUser(result.user || googleUser));
+      if (response.ok || response.status === 409) {
+        const normalized = normalizeUserData(result.user);
+        dispatch(setUser(normalized));
         setShowPopup(false);
         navigate(userType === "doctor" ? "/dhome" : "/home");
-      } else if (response.status === 409) {
-        setErrorMessage("Email already registered.");
       } else {
         console.error("Google registration failed");
       }
@@ -91,11 +102,7 @@ const SignUp = () => {
     <GoogleOAuthProvider clientId="854577512142-3l0qe0gt6u9d9ef3dr642f15r3tfcapl.apps.googleusercontent.com">
       <div className="signup-page-container">
         <div className="signup-left-section">
-          <img
-            src="../images/Group 1000002599.png"
-            alt="Doctor"
-            className="signup-image"
-          />
+          <img src="../images/healthcare-workers-medicine-covid-19-pandemic-self-quarantine-concept-smiling-attractive-doctor-scrubs-glasses-stethoscope-neck-cross-arms-chest-ready-help-patients.png" alt="Doctor" className="signup-image" />
         </div>
 
         <div className="signup-right-section">

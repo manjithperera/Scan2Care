@@ -28,7 +28,7 @@ body {
   color: #3a557f;
 }
 
-/* ✅ Progress Bar */
+/*  Progress Bar */
 .progress_bar {
   display: flex;
   align-items: center;
@@ -56,7 +56,7 @@ body {
   margin: 0 10px;
 }
 
-/* ✅ Symptoms Input Section */
+/* Symptoms Input Section */
 .symptoms_input_container {
   background-color: white;
   padding: 15px;
@@ -75,7 +75,7 @@ body {
   resize: none;
 }
 
-/* ✅ Navigation Buttons */
+/*  Navigation Buttons */
 .button_container {
   display: flex;
   justify-content: space-between;
@@ -93,7 +93,7 @@ body {
 }
 
 .back_button {
-  background-color: white;
+  background-color: #3a557f;
   border: 1px solid #ccc;
 }
 

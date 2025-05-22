@@ -10,15 +10,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100px;
 }
 
 .signup-image {
-  max-width: 100%;
-  max-height: 100%;
   object-fit: contain;
-  width: 698px;
-  height: 724px;
+  width: 724px;
+  height: 600px;
+  transform: translate(230px, 64px); /* right 100px, up 50px */
 }
+
 
 .signup-right-section {
   flex: 3;

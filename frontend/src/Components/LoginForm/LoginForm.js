@@ -1,26 +1,23 @@
-// src/components/LoginForm.js
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { setUser, setDoctorId } from "../../redux/userSlice";
+import { setUser } from "../../redux/userSlice";
 import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Manual login handler
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const loginData = { email, password, userType };
+    const loginData = { email, password };
 
     try {
       const response = await fetch("http://localhost:5000/login", {
@@ -33,15 +30,19 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        dispatch(setUser(data.user));
+        const user = {
+          _id: data.user?._id ?? data.user?.user_id,
+          doctor_id: data.user?.doctor_id ?? null,
+          patient_id: data.user?.patient_id ?? null,
+          name: data.user?.name,
+          email: data.user?.email,
+          user_type: data.user?.user_type,
+        };
 
-        if (data.user.user_type === "doctor") {
-          dispatch(setDoctorId(data.user._id)); // Save doctorId to Redux
-          navigate("/dhome"); // Redirect to doctor's home
-        } else {
-          navigate("/home"); // Redirect to patient home
-        }
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch(setUser(user));
+
+        navigate(user.user_type === "doctor" ? "/dhome" : "/home");
       } else {
         setError(data.error || "Login failed");
         alert("Incorrect password");
@@ -52,22 +53,38 @@ const LoginForm = () => {
     }
   };
 
-  // Google login handler
-  const handleGoogleLoginSuccess = (credentialResponse) => {
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
 
-      const user = {
-        name: decoded.name,
-        email: decoded.email,
-        picture: decoded.picture,
-        user_type: "patient", // default to patient, change if needed
-        login_method: "google",
-      };
+      const response = await fetch("http://localhost:5000/google_login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: decoded.name,
+          email: decoded.email,
+          userType: "patient", // default for Google users
+        }),
+      });
 
-      dispatch(setUser(user)); // Set user info in Redux
-      localStorage.setItem("user", JSON.stringify(user)); // Persist user in localStorage
-      navigate("/home");
+      const data = await response.json();
+
+      if (response.ok) {
+        const user = {
+          _id: data.user?._id ?? data.user?.user_id,
+          doctor_id: data.user?.doctor_id ?? null,
+          patient_id: data.user?.patient_id ?? null,
+          name: data.user?.name,
+          email: data.user?.email,
+          user_type: data.user?.user_type,
+        };
+
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch(setUser(user));
+        navigate(user.user_type === "doctor" ? "/dhome" : "/home");
+      } else {
+        setError(data.error || "Google Sign-In failed");
+      }
     } catch (err) {
       console.error("Google decode error:", err);
       setError("Google Sign-In Failed");
@@ -100,15 +117,6 @@ const LoginForm = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <select
-                required
-                value={userType}
-                onChange={(e) => setUserType(e.target.value)}
-              >
-                <option value="" disabled>Select User Type</option>
-                <option value="doctor">Doctor</option>
-                <option value="patient">Patient</option>
-              </select>
 
               <div className={styles.form_options}>
                 <label>

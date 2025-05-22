@@ -13,7 +13,7 @@ const ContactUs = () => {
         <div className="contact-us-left">
           <div className="contact-us-blue-bg"></div>
           <img
-            src="/images/healthcare-workers-medicine-covid-19-pandemic-self-quarantine-concept-smiling-attractive-doctor-scrubs-glasses-stethoscope-neck-cross-arms-chest-ready-help-patients.png"
+            src="/images/Group 1000002601.png"
             alt="Doctor"
             className="contact-us-doctor-image"
           />

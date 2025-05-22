@@ -131,3 +131,67 @@
     border-spacing: -270;
   }
   
+
+  @media (max-width: 768px) {
+  .login_container {
+    flex-direction: column;
+  }
+
+  .login_card {
+    flex: none;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .form_container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .image_container {
+    display: none; /* Hide image on mobile for a cleaner look */
+  }
+
+  .logo {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .logo img {
+    height: 40px;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  input,
+  select {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .form_options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .signup_link {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+}

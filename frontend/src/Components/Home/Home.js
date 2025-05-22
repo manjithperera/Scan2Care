@@ -29,19 +29,19 @@ const App = () => {
         <h2>Explore our comprehensive services at Scan2Care</h2>
         <div className={styles.services_grid}>
           <div className={styles.service_item}>
-            <img src="/images/service1.png" alt="Service 1" />
+            <img src="/images/Group 1000002612aa.png" alt="Service 1" />
             <p>Receive AI-powered risk analysis reports to identify potential skin concerns and get insights for treatment or prevention.</p>
           </div>
           <div className={styles.service_item}>
-            <img src="/images/service2.png" alt="Service 2" />
+            <img src="/images/Group 1000002613aa.png" alt="Service 2" />
             <p>Using advanced image processing, identify potential skin abnormalities with speed and precision.</p>
           </div>
           <div className={styles.service_item}>
-            <img src="/images/service3.png" alt="Service 3" />
+            <img src="/images/Group 1000002614aa.png" alt="Service 3" />
             <p>Access a wide range of useful tools for skin self-checks and connect with dermatology experts when needed.</p>
           </div>
           <div className={styles.service_item}>
-            <img src="/images/service4.png" alt="Service 4" />
+            <img src="/images/Group 1000002615aa.png" alt="Service 4" />
             <p>Our technology focuses on early detection of skin diseases to help minimize risks and maintain healthy skin.</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ const App = () => {
       {/* Trusted Experts Section */}
       <section className={styles.experts}>
         <div className={styles.experts_content}>
-          <img src="/images/doctor.png" alt="Doctor" />
+          <img src="/images/Group 9.png" alt="Doctor" />
           <div>
             <h2>Trusted by Dermatology Experts</h2>
             <p>
@@ -74,7 +74,7 @@ const App = () => {
               providing preventative recommendations, we help you make informed decisions.
             </p>
           </div>
-          <img src="/images/user.png" alt="User" />
+          <img src="/images/Frame 67.png" alt="User" />
         </div>
       </section>
 

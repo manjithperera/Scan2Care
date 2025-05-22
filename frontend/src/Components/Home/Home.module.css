@@ -12,7 +12,7 @@ body {
   
   .hero {
     text-align: center;
-    background: #e6f7ff;
+    background: #001a37;
     padding: 50px 20px;
   }
   
@@ -82,7 +82,7 @@ body {
     padding: 50px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
   }
   
   .empowering-content div {

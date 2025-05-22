@@ -15,7 +15,7 @@ const SymptomsStep = () => {
       <div className={styles.header_section}>
         <div className={styles.header_image}>
           <img
-            src="https://via.placeholder.com/300x200"
+            src="/images/Group 1000002611 copy.png"
             alt="User with Skin Condition"
           />
         </div>
