@@ -175,7 +175,7 @@ def google_login():
         return jsonify({"error": str(e)}), 500
 
 
-# === PREDICTION ENDPOINT (MODIFIED) ===
+# === PREDICTION ENDPOINT  ===
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -345,7 +345,7 @@ def get_all_doctors():
         for doc in doctors_cursor:
             doctor_data = {
                 "_id": str(doc.get("_id")),
-                "doctor_id": doc.get("doctor_id", ""),  # ✅ Ensure doctor_id is included
+                "doctor_id": doc.get("doctor_id", ""),  #doctor_id is included
                 "name": doc.get("name", ""),
                 "specialization": doc.get("specialization", ""),
                 "qualifications": doc.get("qualifications", ""),
@@ -403,7 +403,7 @@ def book_session():
         }
 
         inserted = booking_collection.insert_one(booking)
-        booking["_id"] = str(inserted.inserted_id)  # ✅ convert ObjectId to string
+        booking["_id"] = str(inserted.inserted_id)  # convert ObjectId to string
 
         return jsonify({"message": "Session booked successfully", "booking": booking}), 201
 
