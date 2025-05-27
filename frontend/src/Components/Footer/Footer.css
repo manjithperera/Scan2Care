@@ -44,12 +44,12 @@
     transform: translateX(40px);
   }
   
-  /* Flexbox container for menu and social media */
+ 
   .footer-row {
     display: flex;
-    justify-content: center; /* Space between menu and social icons */
-    align-items: center; /* Align items vertically */
-    flex-wrap: wrap; /* Wrap to the next line on smaller screens */
+    justify-content: center; 
+    align-items: center; 
+    flex-wrap: wrap; 
     gap: 40px;
     margin: 20px 0;
   }
@@ -65,7 +65,7 @@
     list-style: none;
     padding: 0;
     display: flex;
-    gap: 90px; /* Space between menu items */
+    gap: 90px;
     margin: 0;
     align-items: center;
   }
@@ -78,12 +78,12 @@
   }
   
   .footer-link:hover {
-    color: #00bcd4; /* Light blue hover effect */
+    color: #00bcd4; 
   }
   
   .footer-social-media {
     display: flex;
-    gap: 15px; /* Space between icons */
+    gap: 15px; 
     margin-left: 160px;
   }
   
@@ -94,15 +94,15 @@
     align-items: center;
     width: 35px;
     height: 35px;
-    border: 2px solid white; /* Circular white border */
-    border-radius: 50%; /* Makes it a perfect circle */
-    background-color: transparent; /* Transparent background */
-    color: white; /* White icons */
-    font-size: 1.5rem; /* Icon size */
+    border: 2px solid white; 
+    border-radius: 50%; 
+    background-color: transparent; 
+    color: white; 
+    font-size: 1.5rem; 
     transition: background-color 0.3s, color 0.3s;
   }
   
   .icon-circle:hover {
-    background-color: #00bcd4; /* Light blue background on hover */
-    color: #333; /* Dark icon color on hover */
+    background-color: #00bcd4; 
+    color: #333; 
   }

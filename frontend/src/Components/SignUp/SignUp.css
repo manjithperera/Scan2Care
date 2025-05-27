@@ -17,7 +17,7 @@
   object-fit: contain;
   width: 724px;
   height: 600px;
-  transform: translate(230px, 64px); /* right 100px, up 50px */
+  transform: translate(230px, 64px); 
 }
 
 

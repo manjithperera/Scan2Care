@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 const DoctorInfo = () => {
   const { doctorId } = useParams();
-  const navigate = useNavigate(); // ✅ navigation hook
+  const navigate = useNavigate(); 
   const [doctor, setDoctor] = useState(null);
   const [date, setDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
@@ -124,7 +124,7 @@ const DoctorInfo = () => {
       const data = await response.json();
       if (response.ok) {
         alert("Booking confirmed!");
-        navigate("/usessions"); // ✅ redirect to USessions page
+        navigate("/usessions");
       } else {
         alert("Booking failed: " + data.error);
       }

@@ -13,7 +13,7 @@ const Footer = () => {
         skin today.
       </p>
       <hr className="footer-divider" />
-      {/* Combined navigation and social media into one row */}
+      
       <div className="footer-row">
         <ul className="footer-menu">
         <p classname="footer-title">SCAN2CARE</p>

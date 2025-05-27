@@ -14,13 +14,7 @@ body {
   }
   
   /* Header Section */
-  .header_section {
-    display: flex;
-    align-items: center;
-    background-color: #e0e9fa;
-    padding: 20px;
-    border-radius: 10px;
-  }
+  
   
   .user_image {
     width: 150px;
@@ -131,3 +125,8 @@ body {
     color: white;
   }
   
+
+  .Predict4HeaderImage {
+  transform: translateX(-200px); 
+  transition: transform 0.3s ease;
+}

@@ -17,12 +17,12 @@
   overflow-y: auto;
   box-sizing: border-box;
 
-  /* Flip scrollbar to left side */
+  
   direction: rtl;
-  padding-right: 40px; /* Acts as left padding visually */
+  padding-right: 40px; 
 }
 
-/* SCROLL BAR LINE (now moved to the right side of content) */
+
 .USessions-scroll-line {
   position: absolute;
   top: 0;
@@ -50,7 +50,7 @@
 
 /* SESSION LIST */
 .USessions-list {
-  direction: ltr; /* Restore normal content direction */
+  direction: ltr; 
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -106,7 +106,7 @@
   object-fit: contain;
 }
 
-/* Optional: nice left-side scrollbar */
+
 .USessions-left::-webkit-scrollbar {
   width: 6px;
 }

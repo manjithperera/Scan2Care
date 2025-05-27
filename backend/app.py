@@ -14,7 +14,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-# MongoDB setup
+
 client = MongoClient("mongodb+srv://manjithperera66:GBcCSKrWirAG3XQC@cluster0.ojaltri.mongodb.net/?retryWrites=true&w=majority&tls=true")
 users_db = client["users"]
 collection = users_db["patients"]
@@ -22,7 +22,7 @@ doctor_collection = users_db["doctors"]
 session_collection = users_db["doctor_sessions"]
 booking_collection = users_db["bookings"]
 
-# Load dual-input ML model
+
 model = load_model('./model/skin_cancer_combined_model.h5')
 class_map = {0: "Basal Cell Carcinoma", 1: "Melanoma", 2: "Squamous Cell Carcinoma"}
 
@@ -68,7 +68,7 @@ def register_user():
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         collection_ref = collection if user_type == "patient" else doctor_collection
 
-        # Check for existing user
+        
         existing_user = collection_ref.find_one({"email": email})
         if existing_user:
             user_info = {
@@ -84,7 +84,7 @@ def register_user():
 
             return jsonify({"error": "User already exists", "user": user_info}), 409
 
-        # Create new user
+        
         user = {
             "name": name,
             "email": email,
@@ -100,7 +100,7 @@ def register_user():
         inserted = collection_ref.insert_one(user)
         user["_id"] = inserted.inserted_id
 
-        # Respond with user details for Redux
+        
         user_response = {
             "_id": str(user["_id"]),
             "name": name,
@@ -175,7 +175,7 @@ def google_login():
         return jsonify({"error": str(e)}), 500
 
 
-# === PREDICTION ENDPOINT  ===
+
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -283,12 +283,12 @@ def add_session():
 @app.route("/get_doctor_info/<doctor_id>", methods=["GET"])
 def get_doctor_info(doctor_id):
     try:
-        # Use 'doctor_id' instead of MongoDB ObjectId
+        
         doctor = doctor_collection.find_one({"doctor_id": doctor_id})
         if not doctor:
             return jsonify({"error": "Doctor not found"}), 404
 
-        # Encode image if available
+       
         image_base64 = base64.b64encode(doctor.get("image_binary", b"")).decode("utf-8") if doctor.get("image_binary") else None
 
         doctor_data = {
@@ -414,7 +414,7 @@ def book_session():
 @app.route("/get_booked_sessions/<patient_id>", methods=["GET"])
 def get_booked_sessions(patient_id):
     try:
-        # Find bookings for the patient
+        
         bookings_cursor = booking_collection.find({"patient_id": patient_id})
         sessions = []
 

@@ -11,7 +11,7 @@ const SymptomsStep = () => {
     <div>
       <Navbar />
     <div className={styles.symptoms_container}>
-      {/* ✅ Static Header Section */}
+
       <div className={styles.header_section}>
         <div className={styles.header_image}>
           <img
@@ -29,7 +29,7 @@ const SymptomsStep = () => {
         </div>
       </div>
 
-      {/* ✅ Progress Bar */}
+      
       <div className={styles.progress_bar}>
         <div className={styles.progress_step.active}>
           <span className={styles.step_number}>01</span> Symptoms
@@ -44,7 +44,7 @@ const SymptomsStep = () => {
         </div>
       </div>
 
-      {/* ✅ Symptoms Input Section */}
+      
       <div className={styles.symptoms_input_container}>
         <p>Enter symptoms that are currently occurring:</p>
         <textarea
@@ -55,7 +55,7 @@ const SymptomsStep = () => {
         ></textarea>
       </div>
 
-      {/* ✅ Navigation Buttons */}
+      
       <div className={styles.button_container}>
         <Link to="/Home"><button className={styles.back_button}>Back</button></Link>
         <Link to="/Predict2"><button className={styles.next_button}>Next</button></Link>

@@ -63,7 +63,7 @@ const LoginForm = () => {
         body: JSON.stringify({
           name: decoded.name,
           email: decoded.email,
-          userType: "patient", // default for Google users
+          userType: "patient", 
         }),
       });
 

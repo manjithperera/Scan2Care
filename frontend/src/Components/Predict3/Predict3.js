@@ -45,7 +45,7 @@ const Questionnaire = () => {
       const data = await response.json();
       console.log("✅ Prediction response:", data);
 
-      // Validate predictions structure
+      
       if (
         Array.isArray(data.predictions) &&
         data.predictions.length > 0 &&
@@ -65,17 +65,10 @@ const Questionnaire = () => {
     <div>
       <Navbar />
       <div className={styles.questionnaire_container}>
-        <div className={styles.header_section}>
-          <img className={styles.user_image} src="/images/Frame 3589.png" alt="User" />
-          <div className={styles.header_text}>
-            <h2>Understand Your Skin Better with AI-Powered Insights</h2>
-            <div className={styles.progress_dots}>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
-              <span className={styles.dot_active}></span>
-            </div>
-          </div>
-        </div>
+       
+          <img src="/images/Group 1000002611 copy.png" alt="Skin Analysis" className={styles.Predict3HeaderImage} />
+
+          
 
         <div className={styles.progress_bar}>
           <div className={styles.progress_step.completed}>✔ Symptoms</div>

@@ -16,17 +16,10 @@ const DiagnosisResult = () => {
       <Navbar />
       <div className={styles.diagnosis_container}>
         {/* Header Section */}
-        <div className={styles.header_section}>
-          <img className={styles.user_image} src="/images/Frame 67.png" alt="User with skin condition" />
-          <div className={styles.header_text}>
-            <h2>Understand Your Skin Better with AI-Powered Insights</h2>
-            <div className={styles.progress_dots}>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
-              <span className={styles.dot_active}></span>
-            </div>
-          </div>
-        </div>
+        
+          <img src="/images/Group 1000002611 copy.png" alt="Skin Analysis" className={styles.Predict4HeaderImage} />
+
+          
 
         {/* Progress Bar */}
         <div className={styles.progress_bar_container}>

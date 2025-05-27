@@ -25,7 +25,7 @@
   
   .DSessions-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Always show 3 per row */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
   }
   

@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>    {/* <-- wrap Redux Provider here */}
+    <PersistGate loading={null} persistor={persistor}>   
     <GoogleOAuthProvider clientId="353783120916-6p34gs4a2pk19eiatkt3b31osa2kjgej.apps.googleusercontent.com">
       <App />
     </GoogleOAuthProvider>

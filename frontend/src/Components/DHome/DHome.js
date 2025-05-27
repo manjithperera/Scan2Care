@@ -116,7 +116,7 @@ const AddSessionForm = () => {
         alert("Session added successfully!");
         console.log(result);
         resetForm();
-        navigate("/dsessions"); // ✅ Redirect here
+        navigate("/dsessions"); 
       } else {
         console.error(result);
         alert("Failed to add session: " + result.error);

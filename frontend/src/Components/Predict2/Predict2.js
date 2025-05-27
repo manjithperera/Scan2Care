@@ -35,12 +35,9 @@ const Predict2ImageUpload = () => {
     <div>
       <Navbar />
       <div className="Predict2-container">
-        <div className="Predict2-header">
-          <div className="Predict2-header-content">
+        
             <img src="/images/Group 1000002611 copy.png" alt="Skin Analysis" className="Predict2-header-image" />
-            <h2 className="Predict2-title">Understand Your Skin Better with AI-Powered Insights</h2>
-          </div>
-        </div>
+        
 
         <div className="Predict2-progress-bar">
           <div className="Predict2-progress-step Predict2-completed">✔ Symptoms</div>

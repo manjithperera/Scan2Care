@@ -137,7 +137,7 @@ body {
   }
   
   .back_button {
-    background: white;
+    background: #3f88e5;
     border: 1px solid #ccc;
   }
   
@@ -146,3 +146,12 @@ body {
     color: white;
   }
   
+
+   
+  
+ .Predict3HeaderImage {
+  width: 900px;
+  height: auto;
+  transform: translateX(-50px); 
+  transition: transform 0.3s ease;
+}

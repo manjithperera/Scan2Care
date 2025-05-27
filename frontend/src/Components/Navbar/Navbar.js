@@ -25,7 +25,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Update links to match your route paths in App.js */}
+      
         <ul className={styles.navbar_links}>
           <li className={styles.navbar_item}>
             <Link to="/Home" className={activeItem === "home" ? "active" : ""} onClick={() => handleItemClick("home")}>
