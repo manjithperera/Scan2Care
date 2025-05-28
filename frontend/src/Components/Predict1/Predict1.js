@@ -20,7 +20,7 @@ const SymptomsStep = () => {
           />
         </div>
         <div className={styles.header_text}>
-          <h2>Understand Your Skin Better with AI-Powered Insights</h2>
+          
           <div className="dots">
             <span className={styles.dot} active></span>
             <span className={styles.dot}></span>
